@@ -1,3 +1,6 @@
+// native
+const assert = require('assert');
+
 // third-party
 const should = require('should');
 
@@ -15,6 +18,14 @@ describe('Permission#authorize(subject)', function () {
     p.can('subject-1').should.eql(true);
   });
 
+  it('should require subject to be a String', function () {
+    var p = new Permission();
+
+    assert.throws(function () {
+      p.authorize(undefined);
+    });
+  });
+
 });
 
 describe('Permission#unauthorize(subject)', function () {
@@ -30,6 +41,13 @@ describe('Permission#unauthorize(subject)', function () {
     p.can('subject-1').should.eql(false);
   });
 
+  it('should require subject to be a String', function () {
+    var p = new Permission();
+
+    assert.throws(function () {
+      p.unauthorize(undefined);
+    });
+  });
 });
 
 
@@ -46,6 +64,13 @@ describe('Permission#block(subject)', function () {
     p.can('subject-1').should.eql(false);
   });
 
+  it('should require subject to be a String', function () {
+    var p = new Permission();
+
+    assert.throws(function () {
+      p.block(undefined);
+    });
+  });
 });
 
 describe('Permission#unblock(subject)', function () {
@@ -62,6 +87,13 @@ describe('Permission#unblock(subject)', function () {
     p.can('subject-1').should.eql(true);
   });
 
+  it('should require subject to be a String', function () {
+    var p = new Permission();
+
+    assert.throws(function () {
+      p.unblock(undefined);
+    });
+  });
 });
 
 describe('Permission#can(subject)', function () {
