@@ -19,7 +19,7 @@ describe('new ACL(permissionLists)', function () {
       }),
     });
 
-    acl.can('subject-1', ['read', 'write']).should.eql(true);
+    acl.isAllowed('subject-1', ['read', 'write']).should.eql(true);
   });
 
   it('should convert plain objects into permission lists', function () {
@@ -33,7 +33,7 @@ describe('new ACL(permissionLists)', function () {
       }),
     });
 
-    acl.can('subject-1', ['read', 'write']).should.eql(true);
+    acl.isAllowed('subject-1', ['read', 'write']).should.eql(true);
   });
 });
 
@@ -49,16 +49,16 @@ describe('ACL#authorize(subject, permissions)', function () {
     // string signature
     acl.authorize('subject-1', 'read');
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
 
     // array signature
     acl.authorize('subject-1', ['write', 'delete']);
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(true);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -96,23 +96,23 @@ describe('ACL#unauthorize(subject, permissions)', function () {
 
     acl.authorize('subject-1', ['read', 'write', 'delete']);
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(true);
 
     // array signature
     acl.unauthorize('subject-1', ['read', 'delete']);
 
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
 
     // string signature
     acl.unauthorize('subject-1', 'write');
 
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -139,26 +139,26 @@ describe('ACL#block(subject, permissions)', function () {
       }
     });
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-2', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-2', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-2', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-2', 'write').should.eql(true);
 
     // array signature
     acl.block('subject-1', ['read', 'write']);
 
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-2', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-2', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-2', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-2', 'write').should.eql(true);
 
     // string signature
     acl.block('subject-2', 'read');
 
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-2', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-2', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-2', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-2', 'write').should.eql(true);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -187,26 +187,26 @@ describe('ACL#unblock(subject, permissions)', function () {
       }
     });
 
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-2', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-2', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-2', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-2', 'write').should.eql(false);
 
     // array signature
     acl.unblock('subject-1', ['read', 'write']);
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-2', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-2', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-2', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-2', 'write').should.eql(false);
 
     // string signature
     acl.unblock('subject-2', 'read');
 
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-2', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-2', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-2', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-2', 'write').should.eql(false);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -231,22 +231,22 @@ describe('ACL#makePublic(permissions)', function () {
     });
 
     // by default permissions are private
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
 
     acl.makePublic('read');
 
     // public permission allows any subject to read unless
     // it is explicitly blocked
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
 
     acl.makePublic(['write', 'delete']);
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(true);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -278,22 +278,22 @@ describe('ACL#makePrivate(permissions)', function () {
     });
 
     // permissions started public
-    acl.can('subject-1', 'read').should.eql(true);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(true);
 
     acl.makePrivate('read');
 
     // private permission disallows all subjects
     // unless explicitly authorized AND not blocked
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', 'delete').should.eql(true);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'delete').should.eql(true);
 
     acl.makePrivate(['write', 'delete']);
-    acl.can('subject-1', 'read').should.eql(false);
-    acl.can('subject-1', 'write').should.eql(false);
-    acl.can('subject-1', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', 'read').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(false);
+    acl.isAllowed('subject-1', 'delete').should.eql(false);
   });
 
   it('should require permissions to be either String or [String]', function () {
@@ -309,7 +309,7 @@ describe('ACL#makePrivate(permissions)', function () {
   });
 });
 
-describe('ACL#can(subject, permissions)', function () {
+describe('ACL#isAllowed(subject, permissions)', function () {
   it('should return true only if subject is allowed all permissions', function () {
     var acl = new ACL({
       read: {
@@ -324,12 +324,12 @@ describe('ACL#can(subject, permissions)', function () {
       },
     });
 
-    acl.can('subject-1', 'write').should.eql(true);
-    acl.can('subject-1', ['read', 'write']).should.eql(true);
-    acl.can('subject-1', ['read', 'write', 'delete']).should.eql(false); // sub-1 is blocked for delete
-    acl.can('subject-1', 'non-existent-permission').should.eql(false);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', ['read', 'write']).should.eql(true);
+    acl.isAllowed('subject-1', ['read', 'write', 'delete']).should.eql(false); // sub-1 is blocked for delete
+    acl.isAllowed('subject-1', 'non-existent-permission').should.eql(false);
     
-    acl.can('subject-2', ['read', 'write', 'delete']).should.eql(true);
+    acl.isAllowed('subject-2', ['read', 'write', 'delete']).should.eql(true);
   });
 
   it('should require permissions to be either String or [String] (non-empty)', function () {
@@ -338,15 +338,15 @@ describe('ACL#can(subject, permissions)', function () {
     });
 
     assert.throws(function () {
-      acl.can('subject-1');
+      acl.isAllowed('subject-1');
     });
 
     assert.throws(function () {
-      acl.can('subject-1', [undefined]);
+      acl.isAllowed('subject-1', [undefined]);
     });
 
     assert.throws(function () {
-      acl.can('subject-1', []);
+      acl.isAllowed('subject-1', []);
     });
   });
 });
@@ -362,7 +362,7 @@ describe('ACL#ensurePermissionList(permission)', function () {
     acl.ensurePermissionList('write');
 
     acl.authorize('subject-1', 'write');
-    acl.can('subject-1', 'write').should.eql(true);
+    acl.isAllowed('subject-1', 'write').should.eql(true);
 
     acl.toJSON().should.eql({
       read: {
@@ -425,10 +425,10 @@ describe('ACL#toJSON()', function () {
 
     acl.block('subject-2', 'delete');
 
-    acl.can('subject-1', ['read', 'write', 'delete']).should.eql(true);
-    acl.can('subject-2', 'read').should.eql(true);
-    acl.can('subject-2', 'write').should.eql(false);
-    acl.can('subject-2', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', ['read', 'write', 'delete']).should.eql(true);
+    acl.isAllowed('subject-2', 'read').should.eql(true);
+    acl.isAllowed('subject-2', 'write').should.eql(false);
+    acl.isAllowed('subject-2', 'delete').should.eql(false);
 
     acl.toJSON().should.eql({
       read: {
@@ -452,9 +452,9 @@ describe('ACL#toJSON()', function () {
     // permissions structure is the same
     var acl2 = new ACL(acl.toJSON());
 
-    acl.can('subject-1', ['read', 'write', 'delete']).should.eql(true);
-    acl.can('subject-2', 'read').should.eql(true);
-    acl.can('subject-2', 'write').should.eql(false);
-    acl.can('subject-2', 'delete').should.eql(false);
+    acl.isAllowed('subject-1', ['read', 'write', 'delete']).should.eql(true);
+    acl.isAllowed('subject-2', 'read').should.eql(true);
+    acl.isAllowed('subject-2', 'write').should.eql(false);
+    acl.isAllowed('subject-2', 'delete').should.eql(false);
   });
 });

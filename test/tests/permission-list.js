@@ -16,8 +16,8 @@ describe('new PermissionList(options)', function () {
       public: false,
     });
 
-    list.can('subject-1').should.eql(false);
-    list.can('subject-2').should.eql(true);
+    list.isAllowed('subject-1').should.eql(false);
+    list.isAllowed('subject-2').should.eql(true);
   });
 
   it('should require `authorized` to be either [String] or undefined', function () {
@@ -79,8 +79,8 @@ describe('PermissionList#authorize(subject)', function () {
 
     list.authorize('subject-1');
 
-    list.can('subject-2').should.eql(false);
-    list.can('subject-1').should.eql(true);
+    list.isAllowed('subject-2').should.eql(false);
+    list.isAllowed('subject-1').should.eql(true);
   });
 
   it('should require subject not to be undefined', function () {
@@ -122,8 +122,8 @@ describe('PermissionList#unauthorize(subject)', function () {
 
     list.unauthorize('subject-1');
 
-    list.can('subject-2').should.eql(true);
-    list.can('subject-1').should.eql(false);
+    list.isAllowed('subject-2').should.eql(true);
+    list.isAllowed('subject-1').should.eql(false);
   });
 
   it('should require subject to be a String', function () {
@@ -188,8 +188,8 @@ describe('PermissionList#block(subject)', function () {
 
     list.block('subject-1');
 
-    list.can('subject-2').should.eql(true);
-    list.can('subject-1').should.eql(false);
+    list.isAllowed('subject-2').should.eql(true);
+    list.isAllowed('subject-1').should.eql(false);
   });
 
   it('should require subject to be a String', function () {
@@ -233,8 +233,8 @@ describe('PermissionList#unblock(subject)', function () {
 
     list.unblock('subject-1');
 
-    list.can('subject-2').should.eql(false);
-    list.can('subject-1').should.eql(true);
+    list.isAllowed('subject-2').should.eql(false);
+    list.isAllowed('subject-1').should.eql(true);
   });
 
   it('should require subject to be a String', function () {
@@ -315,13 +315,13 @@ describe('PermissionList#makePrivate()', function () {
   });
 });
 
-describe('PermissionList#can(subject)', function () {
+describe('PermissionList#isAllowed(subject)', function () {
 
   it('should require a subject', function () {
     var list = new PermissionList();
 
     assert.throws(function () {
-      list.can();
+      list.isAllowed();
     });
   });
 
@@ -332,9 +332,9 @@ describe('PermissionList#can(subject)', function () {
         // public: false,
       });
 
-      list.can('subject-1').should.eql(true);
-      list.can('subject-2').should.eql(true);
-      list.can('subject-3').should.eql(false);
+      list.isAllowed('subject-1').should.eql(true);
+      list.isAllowed('subject-2').should.eql(true);
+      list.isAllowed('subject-3').should.eql(false);
     });
 
     it('should check if subject has been blocked', function () {
@@ -343,9 +343,9 @@ describe('PermissionList#can(subject)', function () {
         blocked: ['subject-2'],
       });
 
-      list.can('subject-1').should.eql(true);
-      list.can('subject-2').should.eql(false); // blocked
-      list.can('subject-3').should.eql(false); // not authorized
+      list.isAllowed('subject-1').should.eql(true);
+      list.isAllowed('subject-2').should.eql(false); // blocked
+      list.isAllowed('subject-3').should.eql(false); // not authorized
     });
   });
 
@@ -357,9 +357,9 @@ describe('PermissionList#can(subject)', function () {
         public: true,
       });
 
-      list.can('subject-1').should.eql(true);
-      list.can('subject-2').should.eql(false); // has been blocked
-      list.can('subject-3').should.eql(true);  // not explicitly authorized, but permission is public
+      list.isAllowed('subject-1').should.eql(true);
+      list.isAllowed('subject-2').should.eql(false); // has been blocked
+      list.isAllowed('subject-3').should.eql(true);  // not explicitly authorized, but permission is public
     });
   });
 });
